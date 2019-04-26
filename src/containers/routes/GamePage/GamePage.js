@@ -1,6 +1,13 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import { startGame } from "../../../actions";
 
 class GamePage extends Component {
+  componentDidMount() {
+    this.props.startGame();
+  }
+
   render() {
     return (
       <div>
@@ -10,4 +17,7 @@ class GamePage extends Component {
   }
 }
 
-export default GamePage;
+export default connect(
+  null,
+  { startGame }
+)(GamePage);

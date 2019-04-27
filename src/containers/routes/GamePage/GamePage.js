@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import GameBoard from "../../GameBoard/GameBoard";
+
 import { startGame } from "../../../actions";
 
 class GamePage extends Component {
@@ -9,11 +11,7 @@ class GamePage extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <h1>GamePage</h1>
-      </div>
-    );
+    return <GameBoard />;
   }
 }
 

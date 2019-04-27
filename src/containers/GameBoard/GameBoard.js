@@ -5,12 +5,13 @@ import { connect } from "react-redux";
 import Board from "../../components/Board/Board";
 
 import { getGameBoard } from "../../selectors";
+import { revealTile, toggleFlaggedTile } from "../../actions";
 
 class GameBoard extends Component {
   render() {
-    const { board } = this.props;
+    const { board, revealTile, toggleFlaggedTile } = this.props;
 
-    return <Board rows={board} />;
+    return <Board rows={board} onReveal={revealTile} onToggleFlagged={toggleFlaggedTile} />;
   }
 }
 
@@ -27,6 +28,9 @@ class GameBoard extends Component {
 //   }, new List());
 // }
 
-export default connect((state) => ({
-  board: getGameBoard(state)
-}))(GameBoard);
+export default connect(
+  (state) => ({
+    board: getGameBoard(state)
+  }),
+  { revealTile, toggleFlaggedTile }
+)(GameBoard);

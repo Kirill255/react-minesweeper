@@ -7,22 +7,38 @@ import "./Tile.css";
 const emojiNumbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight"];
 
 export default class Tile extends Component {
+  handleReveal = () => {
+    const { id, isRevealed, onReveal } = this.props;
+
+    if (!isRevealed) {
+      onReveal(id);
+    }
+  };
+
+  handleFlag = (e) => {
+    e.preventDefault();
+
+    const { id, onToggleFlagged } = this.props;
+
+    onToggleFlagged(id);
+  };
+
   getTileEmoji() {
-    const { isMine, isFlagged, mineCount } = this.props;
+    const { isMine, isRevealed, isFlagged, mineCount } = this.props;
 
     if (isFlagged) {
       return "triangular-flag-on-post";
     }
 
-    if (isMine) {
+    if (isMine && isRevealed) {
       return "bomb";
     }
 
-    if (mineCount) {
+    if (isRevealed && mineCount) {
       return emojiNumbers[mineCount];
     }
 
-    if (!mineCount) {
+    if (isRevealed && !mineCount) {
       return "ghost";
     }
 
@@ -31,7 +47,7 @@ export default class Tile extends Component {
 
   render() {
     return (
-      <span className="tile">
+      <span className="tile" onClick={this.handleReveal} onContextMenu={this.handleFlag}>
         <Emoji size={40} type={this.getTileEmoji()} />
       </span>
     );

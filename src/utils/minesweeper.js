@@ -2,6 +2,11 @@ import { fromJS, Map } from "immutable";
 
 import repeat from "./repeat";
 
+/*
+Сдесь три основные функции (startGame, flagTile, revealTile), а остальные вспомогательные
+*/
+
+// старт игры
 export function startGame(params) {
   const game = fromJS({
     cols: params.cols,
@@ -100,4 +105,54 @@ export function isTileOnWEdge(game, tileId) {
 
 export function isTileOnEEdge(game, tileId) {
   return tileId % game.get("cols") === game.get("cols") - 1;
+}
+
+// ставим флажки(ПКМ) чтобы разминировать бомбы, просто меняем у ячейки значение isFlagged
+export function flagTile(game, tileId) {
+  return game.setIn(["board", tileId, "isFlagged"], !game.getIn(["board", tileId, "isFlagged"]));
+}
+
+// открываем ячейки, увеличиваем кол-во ходов и отмечаем что ячейка открыта isRevealed, дальше проверяем, если в ячейке мина -> то нужно завершить игру(открыть все мины), иначе нужно открыть все безопасные ячейки вокруг
+export function revealTile(game, tileId) {
+  const updatedGame = game
+    .set("moves", game.get("moves") + 1)
+    .setIn(["board", tileId, "isRevealed"], true);
+
+  return updatedGame.getIn(["board", tileId, "isMine"])
+    ? revealAllMines(updatedGame)
+    : revealAdjacentSafeTiles(updatedGame, tileId);
+}
+
+export function revealAllMines(game) {
+  // проходим по всем ячейкам, и если в ячейке мина, то открываем её isRevealed: true
+  const newBoard = game
+    .get("board")
+    .map((tile) => (tile.get("isMine") ? tile.set("isRevealed", true) : tile));
+
+  return game.set("board", newBoard);
+}
+
+export function revealAdjacentSafeTiles(game, tileId) {
+  // выход из рекурсии, если мы наткнулись на мину, то перестаём открывать ячейки, возвращаем игру
+  if (game.getIn(["board", tileId, "isMine"])) {
+    return game;
+  }
+
+  // если ячейка котрую мы открываем — пустая, тоесть вокруг нет мин, запускаем рекурсию
+  if (game.getIn(["board", tileId, "mineCount"]) === 0) {
+    const adjacentTileIds = getAdjacentTileIds(game, tileId);
+
+    return adjacentTileIds.reduce((newGame, tileId) => {
+      const isRevealed = newGame.getIn(["board", tileId, "isRevealed"]);
+
+      return isRevealed ? newGame : revealAdjacentSafeTiles(newGame, tileId);
+    }, setTileRevealed(game, tileId));
+  }
+
+  // если ячейка непустая, просто открываем её и всё
+  return setTileRevealed(game, tileId);
+}
+
+export function setTileRevealed(game, tileId) {
+  return game.setIn(["board", tileId, "isRevealed"], true);
 }

@@ -5,7 +5,7 @@ import Tile from "../Tile/Tile";
 import "./Board.css";
 
 export default (props) => {
-  const { rows } = props;
+  const { rows, onReveal, onToggleFlagged } = props;
 
   return (
     <div className="board">
@@ -19,6 +19,8 @@ export default (props) => {
               isMine={tile.get("isMine")}
               isRevealed={tile.get("isRevealed")}
               isFlagged={tile.get("isFlagged")}
+              onReveal={onReveal}
+              onToggleFlagged={onToggleFlagged}
             />
           ))}
         </div>

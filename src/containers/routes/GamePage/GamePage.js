@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import RestartGame from "../../../components/RestartGame/RestartGame";
 import GameBoard from "../../GameBoard/GameBoard";
 import GameStatus from "../../GameStatus/GameStatus";
 import Footer from "../../../components/Footer/Footer";
 
 import { startGame } from "../../../actions";
+import { getGameStatus } from "../../../selectors";
 
 class GamePage extends Component {
   componentDidMount() {
@@ -15,6 +17,7 @@ class GamePage extends Component {
   render() {
     return (
       <div>
+        {this.props.status !== "PLAYING" && <RestartGame restartGame={this.props.startGame} />}
         <GameStatus />
         <GameBoard />
         <Footer />
@@ -24,6 +27,8 @@ class GamePage extends Component {
 }
 
 export default connect(
-  null,
+  (state) => ({
+    status: getGameStatus(state)
+  }),
   { startGame }
 )(GamePage);

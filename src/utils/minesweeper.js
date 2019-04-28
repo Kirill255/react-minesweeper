@@ -6,6 +6,15 @@ import repeat from "./repeat";
 Сдесь три основные функции (startGame, flagTile, revealTile), а остальные вспомогательные
 */
 
+export const initialState = fromJS({
+  cols: 4,
+  rows: 6,
+  mines: 10,
+  board: [],
+  moves: 0,
+  startedAt: null
+});
+
 // старт игры
 export function startGame(params) {
   const game = fromJS({

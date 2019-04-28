@@ -1,0 +1,16 @@
+.restart-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.restart-game__button {
+  cursor: pointer;
+}

@@ -18,6 +18,30 @@ export const getMines = createSelector(
   (game) => game.get("mines")
 );
 
+export const getMinesLeft = createSelector(
+  getBoard,
+  getMines,
+  (board, mines) => {
+    return (
+      mines -
+      board.reduce((minesLeft, tile) => (tile.get("isFlagged") ? minesLeft + 1 : minesLeft), 0)
+    );
+
+    // или так
+    // return mines - board.filter((tile) => tile.get("isFlagged")).size;
+  }
+);
+
+export const getMovesCount = createSelector(
+  getGame,
+  (game) => game.get("moves")
+);
+
+export const getStartTime = createSelector(
+  getGame,
+  (game) => game.get("startedAt")
+);
+
 export const getGameBoard = createSelector(
   getBoard,
   getCols,
@@ -33,8 +57,7 @@ export const getGameBoard = createSelector(
 
 export const getGameStatus = createSelector(
   getBoard,
-  getMines,
-  (board, mines) => {
+  (board) => {
     const isWinner = board.reduce(
       (status, tile) => (tile.get("isMine") ? status : status && tile.get("isRevealed")),
       true

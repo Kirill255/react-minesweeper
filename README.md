@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Game
 
+![minesweeper](https://user-images.githubusercontent.com/24504648/56859842-197c4c80-6999-11e9-9b20-bcbfd62f842c.png)
+
 ![game](https://user-images.githubusercontent.com/24504648/56853796-531b6c00-6935-11e9-813d-65623114dd75.png)
 
 ![gameboard](https://user-images.githubusercontent.com/24504648/56853813-70e8d100-6935-11e9-9d66-0043391179f7.png)

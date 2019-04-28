@@ -1,0 +1,17 @@
+.game-stat__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.game-stat__label {
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-top: 5px;
+  color: gray;
+}
+
+.game-stat__stat {
+  font-size: 24px;
+}

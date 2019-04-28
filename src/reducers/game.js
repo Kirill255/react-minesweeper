@@ -8,7 +8,8 @@ const initialState = fromJS({
   cols: 4,
   rows: 6,
   mines: 10,
-  moves: 0
+  moves: 0,
+  startedAt: null
 });
 
 export default (state = initialState, action) => {

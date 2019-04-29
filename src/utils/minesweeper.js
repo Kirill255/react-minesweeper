@@ -7,27 +7,35 @@ import repeat from "./repeat";
 */
 
 export const initialState = fromJS({
-  cols: 4,
-  rows: 6,
-  mines: 10,
+  cols: 8,
+  rows: 8,
+  mines: 12,
   board: [],
   moves: 0,
   startedAt: null
 });
 
 // старт игры
-export function startGame(params) {
-  const game = fromJS({
-    cols: params.cols,
-    rows: params.rows,
-    mines: params.mines,
-    board: generateBoard(params),
-    moves: 0,
-    startedAt: Date.now()
-  });
-  console.log(addMineCounts(game));
+export function startGame(game) {
+  const params = {
+    cols: game.get("cols"),
+    rows: game.get("rows"),
+    mines: game.get("mines")
+  };
 
-  return addMineCounts(game);
+  const newGame = game.set("board", generateBoard(params)).set("startedAt", Date.now());
+  console.log(addMineCounts(newGame));
+
+  return addMineCounts(newGame);
+}
+
+export function changeFieldSize(game, size) {
+  const updatedGame = game.set("cols", size).set("rows", size);
+  return updatedGame;
+}
+export function changeMinesCount(game, count) {
+  const updatedGame = game.set("mines", count);
+  return updatedGame;
 }
 
 export function generateBoard({ cols, rows, mines }) {

@@ -38,10 +38,13 @@ export function generateBoard({ cols, rows, mines }) {
   const mineCells = repeat(mines, cell.set("isMine", true)); // у ячеек с минами есть поле isMine: true
 
   // создали массив с ячейками(безопасными и с минами), перемешали и добавили id'шники каждой ячейке
-  return safeCells
-    .concat(mineCells)
-    .sort(() => Math.random() - 0.5)
-    .map((tile, idx) => tile.set("id", idx));
+  return (
+    safeCells
+      .concat(mineCells)
+      // .sort(() => Math.random() - 0.5)
+      .sortBy(Math.random)
+      .map((tile, idx) => tile.set("id", idx))
+  );
 }
 
 // добавляем кол-во мин вокруг каждой ячейки

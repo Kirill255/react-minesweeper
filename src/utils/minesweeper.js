@@ -38,13 +38,7 @@ export function generateBoard({ cols, rows, mines }) {
   const mineCells = repeat(mines, cell.set("isMine", true)); // у ячеек с минами есть поле isMine: true
 
   // создали массив с ячейками(безопасными и с минами), перемешали и добавили id'шники каждой ячейке
-  return (
-    safeCells
-      .concat(mineCells)
-      // .sort(() => Math.random() - 0.5)
-      .sortBy(Math.random)
-      .map((tile, idx) => tile.set("id", idx))
-  );
+  return shuffle(safeCells.concat(mineCells)).map((tile, idx) => tile.set("id", idx));
 }
 
 // добавляем кол-во мин вокруг каждой ячейки
@@ -167,4 +161,23 @@ export function revealAdjacentSafeTiles(game, tileId) {
 
 export function setTileRevealed(game, tileId) {
   return game.setIn(["board", tileId, "isRevealed"], true);
+}
+
+// https://github.com/tkloht/immutable-shuffle не стал устанавливать через npm, скопировал функцию прямо в код
+function shuffle(list) {
+  const shuffled = list.withMutations((mutableList) => {
+    let currentItem = mutableList.size;
+    let tmp = null;
+    let swappedItem = null;
+    while (currentItem) {
+      // Pick a remaining element…
+      swappedItem = Math.floor(Math.random() * currentItem--);
+      // Swap with current element
+      tmp = mutableList.get(currentItem);
+      mutableList.set(currentItem, mutableList.get(swappedItem));
+      mutableList.set(swappedItem, tmp);
+    }
+  });
+
+  return shuffled;
 }

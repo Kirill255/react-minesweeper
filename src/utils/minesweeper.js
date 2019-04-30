@@ -23,7 +23,10 @@ export function startGame(game) {
     mines: game.get("mines")
   };
 
-  const newGame = game.set("board", generateBoard(params)).set("startedAt", Date.now());
+  const newGame = game
+    .set("board", generateBoard(params))
+    .set("moves", 0)
+    .set("startedAt", Date.now());
 
   return addMineCounts(newGame);
 }

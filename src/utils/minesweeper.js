@@ -24,7 +24,6 @@ export function startGame(game) {
   };
 
   const newGame = game.set("board", generateBoard(params)).set("startedAt", Date.now());
-  console.log(addMineCounts(newGame));
 
   return addMineCounts(newGame);
 }

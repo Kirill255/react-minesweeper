@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { routerMiddleware } from "connected-react-router";
 
 import thunk from "redux-thunk";
-import logger from "redux-logger";
+// import logger from "redux-logger";
 
 import rootReducer from "../reducers";
 import history from "../history";
@@ -15,7 +15,7 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, routerMiddleware(history), logger)
+  applyMiddleware(thunk, routerMiddleware(history) /* , logger */)
   // other store enhancers if any
 );
 
@@ -23,5 +23,5 @@ const store = createStore(rootReducer, enhancer);
 
 // export default createStore(rootReducer, enhancer);
 
-window.store = store;
+// window.store = store;
 export default store;
